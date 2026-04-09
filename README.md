@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/conjanki_hero.png" alt="conjanki" width="480">
+  <img src="docs/conjanki_hero.png" alt="conjanki">
 </p>
 
 # conjanki
