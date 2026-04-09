@@ -1,0 +1,635 @@
+/* conjanki — ink on washi */
+
+:root {
+    --bg: #1c1915;
+    --bg-warm: #231f1a;
+    --bg-card: #2a2520;
+    --text: #d4cdc4;
+    --text-dim: #8a8279;
+    --text-bright: #f0ebe4;
+    --accent: #c4663a;
+    --accent-dim: #a3522d;
+    --correct: #6b8f71;
+    --correct-glow: #6b8f7133;
+    --wrong: #b5564e;
+    --wrong-glow: #b5564e33;
+    --border: #3d3730;
+    --input-border: #5a5047;
+    --serif: "Shippori Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+    --sans: "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+    --gothic: "Noto Sans JP", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    /* subtle noise texture */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+}
+
+/* --- Navigation --- */
+
+.site-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.2rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.site-nav > a {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.6rem;
+}
+
+.nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--text);
+}
+
+/* --- Main content --- */
+
+main {
+    max-width: 42rem;
+    padding: 3rem 2rem;
+    margin-left: 8vw;
+}
+
+/* --- Dashboard --- */
+
+.dashboard h1 {
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.3rem;
+}
+
+.subtitle {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 2.5rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+/* --- Buttons --- */
+
+button,
+.btn,
+.start-btn,
+.sync-btn {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    padding: 0.6rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+}
+
+.sync-btn {
+    background: transparent;
+    color: var(--text);
+}
+
+.sync-btn:hover {
+    border-color: var(--text-dim);
+    color: var(--text-bright);
+}
+
+.start-btn {
+    background: var(--accent);
+    color: var(--text-bright);
+    border-color: var(--accent);
+}
+
+.start-btn:hover {
+    background: var(--accent-dim);
+}
+
+/* --- Deck list --- */
+
+.deck-list h2 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.deck-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.deck-card h3 {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+}
+
+.deck-meta {
+    display: flex;
+    gap: 1.6rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.deck-meta .due {
+    color: var(--accent);
+}
+
+.placeholder {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* --- Drill session layout --- */
+
+.drill-session {
+    max-width: 32rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* --- Drill card --- */
+
+.drill-card {
+    margin-top: 2rem;
+}
+
+.prompt {
+    margin-bottom: 1.5rem;
+}
+
+.prompt .verb {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    display: block;
+    margin-bottom: 0.4rem;
+    cursor: default;
+}
+
+.prompt .verb:hover {
+    font-family: var(--gothic);
+}
+
+.prompt .target-form {
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-top: 0.3rem;
+}
+
+.prompt .arrow {
+    color: var(--text-dim);
+}
+
+.prompt .formality {
+    color: var(--accent);
+}
+
+.meaning {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.meaning.spoiler {
+    color: transparent;
+    background: var(--bg-card);
+    border-radius: 3px;
+    padding: 0.2rem 0.5rem;
+    display: inline-block;
+    cursor: help;
+    transition: color 0.2s, background 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.meaning.spoiler:hover,
+.meaning.spoiler:active {
+    color: var(--text-dim);
+    background: transparent;
+}
+
+/* --- Input --- */
+
+.answer-input {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--input-border);
+    color: var(--text-bright);
+    padding: 0.4rem 0;
+    width: 100%;
+    max-width: 20rem;
+    outline: none;
+    transition: border-color 0.2s;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.answer-input:focus {
+    border-bottom-color: var(--accent);
+}
+
+.answer-input::placeholder {
+    color: var(--text-dim);
+    font-size: 1rem;
+    font-family: var(--sans);
+}
+
+.drill-card button[type="submit"] {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    padding: 0.5rem 1.2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.drill-card button[type="submit"]:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+}
+
+/* --- Result --- */
+
+.result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.result.correct {
+    background: var(--correct-glow);
+    border: 1px solid var(--correct);
+}
+
+.result.wrong {
+    background: var(--wrong-glow);
+    border: 1px solid var(--wrong);
+}
+
+.verdict-icon {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.correct .verdict-icon {
+    color: var(--correct);
+}
+
+.wrong .verdict-icon {
+    color: var(--wrong);
+}
+
+.feedback {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+}
+
+.correct .feedback {
+    color: var(--correct);
+}
+
+.wrong .feedback {
+    color: var(--wrong);
+}
+
+.user-answer {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--wrong);
+    text-decoration: line-through;
+    margin-bottom: 0.4rem;
+}
+
+.correct-answer {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+}
+
+.task-reminder {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+}
+
+.conjugation-hint {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+}
+
+.conjugation-hint .stem-value {
+    font-family: var(--serif);
+    color: var(--text);
+}
+
+.conjugation-hint .explanation {
+    font-style: italic;
+}
+
+.speak-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0 0.3rem;
+    vertical-align: middle;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.speak-btn:hover {
+    opacity: 1;
+}
+
+.next-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    transition: all 0.15s;
+}
+
+.next-link:hover,
+.next-link:focus {
+    border-color: var(--accent);
+    color: var(--text-bright);
+    outline: none;
+}
+
+/* --- Drill setup --- */
+
+.setup-form {
+    margin-top: 1rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-group h2 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.form-group-label {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 1.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.form-group-label:first-of-type {
+    margin-top: 0;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 0.5rem;
+}
+
+.checkbox-grid label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.3rem 0;
+}
+
+.checkbox-grid input[type="checkbox"] {
+    accent-color: var(--accent);
+}
+
+/* --- Session progress --- */
+
+.session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+}
+
+.session-header h1 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--text);
+}
+
+.progress-count {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+/* --- Stats --- */
+
+.stats-section {
+    margin-bottom: 3rem;
+}
+
+.stats-section h2 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.stats-table th {
+    text-align: left;
+    color: var(--text-dim);
+    font-weight: normal;
+    padding: 0.4rem 0.8rem 0.4rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.75rem;
+}
+
+.stats-table td {
+    padding: 0.5rem 0.8rem 0.5rem 0;
+    border-top: 1px solid var(--border);
+}
+
+.stats-table td[lang="ja"] {
+    font-family: var(--serif);
+    font-size: 1rem;
+}
+
+.accuracy-bar {
+    display: inline-block;
+    height: 4px;
+    background: var(--correct);
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+/* --- Sync status & result --- */
+
+.sync-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+    margin-top: 0.8rem;
+}
+
+.sync-result {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+.sync-result .count {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* --- Session complete --- */
+
+.session-complete {
+    margin-top: 3rem;
+    text-align: left;
+}
+
+.session-complete h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+}
+
+.session-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--text-bright);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 640px) {
+    main {
+        margin-left: 0;
+        padding: 2rem 1.2rem;
+    }
+
+    .prompt .verb {
+        font-size: 2.2rem;
+    }
+
+    .answer-input {
+        font-size: 1.4rem;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+}

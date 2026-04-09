@@ -1,0 +1,17 @@
+[[deck]]
+name = "Kaishi 1.5k"
+query = 'deck:"Kaishi 1.5k" is:review'
+
+[deck.fields]
+word = "Word"
+reading = "Word Reading"
+meaning = "Word Meaning"
+
+[[deck]]
+name = "Genki Vocab"
+query = 'deck:"Genki 3rd Edition" is:review'
+
+[deck.fields]
+word = "UKanji"
+reading = "Japanese"
+meaning = "English"

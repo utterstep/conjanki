@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS review_log;
+DROP TABLE IF EXISTS drill_sessions;
+DROP TABLE IF EXISTS drill_items;
+DROP TABLE IF EXISTS verbs;
+DROP TABLE IF EXISTS decks;
